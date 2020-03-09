@@ -1,0 +1,25 @@
+Resources:
+  MyEC2:
+    Type: 'AWS::EC2::Instance'
+    Properties:
+      ImageId: ami-0a887e401f7654935
+      KeyName: universal
+      InstanceType: t2.micro
+      Monitoring: 'true'
+      UserData:
+        Fn::Base64:                                # YAML makes userdata much cleaner
+          !Sub |
+              #!/bin/bash -ex
+              yum install -y httpd;
+              echo "<html>I love YAML CloudFormation!!</html>" > /var/www/html/index.html;
+              cd /var/www/html;
+              chmod 755 index.html;
+              service httpd start;
+              chkconfig httpd on;
+      BlockDeviceMappings: 
+      - DeviceName: "/dev/sdm"
+        Ebs: 
+          VolumeType: "io1"
+          Iops: "200"
+          DeleteOnTermination: "true"
+          VolumeSize: "8"

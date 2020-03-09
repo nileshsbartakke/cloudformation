@@ -1,0 +1,20 @@
+---
+Resources:
+  MyECc5353: 
+    Type: AWS::EC2::Instance
+    Properties: 
+      ImageId: "ami-0a887e401f7654935"
+      InstanceType: t2.micro
+      KeyName: "universal"
+      AvailabilityZone: "us-east-1"
+      BlockDeviceMappings: 
+        - DeviceName: "/dev/sdm"
+            Ebs: 
+                VolumeType: "io1"
+                Iops: "200"
+                DeleteOnTermination: "true"
+                VolumeSize: "8"
+        - DeviceName: "/dev/sdk"
+        NoDevice: {}
+      
+       
